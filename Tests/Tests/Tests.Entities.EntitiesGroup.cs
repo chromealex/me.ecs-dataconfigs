@@ -50,7 +50,7 @@ namespace ME.ECS.Tests {
             var config = UnityEngine.Resources.Load<ME.ECS.DataConfigs.DataConfig>("Test");
             
             World world = null;
-            WorldUtilities.CreateWorld<ME.ECSEditor.Tools.WorldTesters.World.TestState>(ref world, 0.033f);
+            WorldUtilities.CreateWorld<TestState>(ref world, 0.033f);
             {
                 world.AddModule<TestStatesHistoryModule>();
                 world.AddModule<TestNetworkModule>();
