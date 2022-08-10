@@ -6,7 +6,8 @@
         "ME.ECS.Serializer",
         "ME.ECS.IL2CPP",
         "ME.ECS.FPMath",
-        "Unity.Mathematics"
+        "Unity.Mathematics",
+        "Unity.Collections"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

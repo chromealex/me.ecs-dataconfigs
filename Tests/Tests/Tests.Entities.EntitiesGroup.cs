@@ -15,7 +15,7 @@ namespace ME.ECS.Tests {
             
             public void OnConstruct() {
                 
-                this.filter = Filter.Create("Test").With<DataConfigTestComponent>().Push();
+                this.filter = Filter.Create("Test").With<ME.ECS.Transform.Position>().Push();
                 
             }
 
@@ -58,11 +58,11 @@ namespace ME.ECS.Tests {
                 world.SetSeed(1u);
                 {
                     WorldUtilities.InitComponentTypeId<TestComponent>(false);
-                    WorldUtilities.InitComponentTypeId<DataConfigTestComponent>(false);
+                    WorldUtilities.InitComponentTypeId<ME.ECS.Transform.Position>(false);
                     ComponentsInitializerWorld.Setup((e) => {
                 
                         e.ValidateData<TestComponent>();
-                        e.ValidateData<DataConfigTestComponent>();
+                        e.ValidateData<ME.ECS.Transform.Position>();
                 
                     });
                 }

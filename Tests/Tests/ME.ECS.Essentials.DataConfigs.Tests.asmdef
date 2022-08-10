@@ -5,8 +5,7 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "ME.ECS",
-        "ME.ECS.Addons.DataConfigs",
-        "ME.ECS.Essentials.DataConfigs.Tests.Res"
+        "ME.ECS.Addons.DataConfigs"
     ],
     "includePlatforms": [
         "Editor"
