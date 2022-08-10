@@ -1,6 +1,6 @@
 {
   "name": "com.me.ecs.essentials.dataconfigs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "ME.ECS Essentials DataConfig",
   "description": "ME.ECS Essentials DataConfig Package.",
   "unity": "2020.3",
