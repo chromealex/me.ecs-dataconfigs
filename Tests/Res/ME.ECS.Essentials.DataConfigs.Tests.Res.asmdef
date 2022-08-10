@@ -1,16 +1,10 @@
 {
-    "name": "ME.ECS.Essentials.DataConfigs.Tests",
+    "name": "ME.ECS.Essentials.DataConfigs.Tests.Res",
     "rootNamespace": "",
     "references": [
-        "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
-        "ME.ECS",
-        "ME.ECS.Addons.DataConfigs",
-        "ME.ECS.Essentials.DataConfigs.Tests.Res"
+        "ME.ECS"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

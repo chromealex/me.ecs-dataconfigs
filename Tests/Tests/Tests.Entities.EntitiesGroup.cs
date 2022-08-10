@@ -3,13 +3,54 @@ namespace ME.ECS.Tests {
 
     public class Tests_Entities_EntitiesGroup {
 
+        private class TestState : State {}
+        public struct TestComponent : IComponent {}
+
+        private class TestDataConfigSystem : ISystem, IAdvanceTick {
+
+            public World world { get; set; }
+
+            public int testValueCount;
+            private Filter filter;
+            
+            public void OnConstruct() {
+                
+                this.filter = Filter.Create("Test").With<DataConfigTestComponent>().Push();
+                
+            }
+
+            public void OnDeconstruct() {
+                
+            }
+
+            public void AdvanceTick(in float deltaTime) {
+                
+                NUnit.Framework.Assert.AreEqual(this.testValueCount, this.filter.Count);
+                
+            }
+
+        }
+
+        private class TestStatesHistoryModule : ME.ECS.StatesHistory.StatesHistoryModule<TestState> {
+
+        }
+
+        private class TestNetworkModule : ME.ECS.Network.NetworkModule<TestState> {
+
+            protected override ME.ECS.Network.NetworkType GetNetworkType() {
+                return ME.ECS.Network.NetworkType.RunLocal | ME.ECS.Network.NetworkType.SendToNet;
+            }
+
+
+        }
+
         [NUnit.Framework.TestAttribute]
         public void ApplyConfig() {
 
             var config = UnityEngine.Resources.Load<ME.ECS.DataConfigs.DataConfig>("Test");
             
             World world = null;
-            WorldUtilities.CreateWorld<TestState>(ref world, 0.033f);
+            WorldUtilities.CreateWorld<ME.ECSEditor.Tools.WorldTesters.World.TestState>(ref world, 0.033f);
             {
                 world.AddModule<TestStatesHistoryModule>();
                 world.AddModule<TestNetworkModule>();
