@@ -5,6 +5,7 @@ namespace ME.ECS.Tests {
 
         private class TestState : State {}
         public struct TestComponent : IComponent {}
+        public struct TestComponent2 : IComponent {}
 
         private class TestDataConfigSystem : ISystem, IAdvanceTick {
 
@@ -15,7 +16,7 @@ namespace ME.ECS.Tests {
             
             public void OnConstruct() {
                 
-                this.filter = Filter.Create("Test").With<ME.ECS.Transform.Position>().Push();
+                this.filter = Filter.Create("Test").With<TestComponent2>().Push();
                 
             }
 
@@ -58,11 +59,11 @@ namespace ME.ECS.Tests {
                 world.SetSeed(1u);
                 {
                     WorldUtilities.InitComponentTypeId<TestComponent>(false);
-                    WorldUtilities.InitComponentTypeId<ME.ECS.Transform.Position>(false);
+                    WorldUtilities.InitComponentTypeId<TestComponent2>(false);
                     ComponentsInitializerWorld.Setup((e) => {
                 
                         e.ValidateData<TestComponent>();
-                        e.ValidateData<ME.ECS.Transform.Position>();
+                        e.ValidateData<TestComponent2>();
                 
                     });
                 }
