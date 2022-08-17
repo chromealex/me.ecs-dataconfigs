@@ -20,12 +20,4 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Position, ns: ME.ECS.Transform, asm: ME.ECS}
-      data:
-        value:
-          x:
-            rawValue: 1065353216
-          y:
-            rawValue: 1073741824
-          z:
-            rawValue: 1077936128
+      type: {class: Tests_Filters_AddRemove/TestComponent, ns: ME.ECS.Tests, asm: ME.ECS.Tests}
