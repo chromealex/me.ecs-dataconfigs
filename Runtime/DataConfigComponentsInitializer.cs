@@ -43,9 +43,9 @@ namespace ME.ECS.DataConfigs {
     
             ME.ECS.DataConfigs.DataConfig.Init(state);
             
-            state.structComponents.Validate<SourceConfig>();
+            state.structComponents.ValidateUnmanaged<SourceConfig>(ref state.allocator, false);
             #if !STATIC_API_DISABLED
-            state.structComponents.Validate<SourceConfigs>();
+            state.structComponents.ValidateUnmanagedDisposable<SourceConfigs>(ref state.allocator, false);
             var feature = DataConfigComponentsInitializer.GetFeature();
             if (feature == null) {
 
@@ -61,9 +61,9 @@ namespace ME.ECS.DataConfigs {
 
             ME.ECS.DataConfigs.DataConfig.Init(in entity);
             
-            entity.ValidateData<SourceConfig>();
+            entity.ValidateDataUnmanaged<SourceConfig>();
             #if !STATIC_API_DISABLED
-            entity.ValidateData<SourceConfigs>();
+            entity.ValidateDataUnmanagedDisposable<SourceConfigs>();
             #endif
             
         }
