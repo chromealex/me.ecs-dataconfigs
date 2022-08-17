@@ -108,7 +108,7 @@ namespace ME.ECS.DataConfigs {
         public static void InitTypeId() {
             
             #if !SHARED_COMPONENTS_DISABLED
-            WorldUtilities.InitComponentTypeId<SharedData>(isCopyable: true);
+            WorldUtilities.InitComponentTypeId<SharedData>(isDisposable: true);
             #endif
             
         }

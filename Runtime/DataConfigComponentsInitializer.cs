@@ -6,14 +6,41 @@ namespace ME.ECS.DataConfigs {
 
     }
 
+    #if UNITY_EDITOR
+    [UnityEditor.InitializeOnLoadAttribute]
+    #endif
     public static class DataConfigComponentsInitializer {
+        
+        public static DisposeStatic disposeStatic = new DisposeStatic();
+        private static bool initialized = false;
+        
+        #if UNITY_EDITOR
+        [UnityEditor.InitializeOnLoad]
+        private static class EditorInitializer {
+            static EditorInitializer() => DataConfigComponentsInitializer.Initialize();
+        }
+        #endif
 
-        static DataConfigComponentsInitializer() {
+        [UnityEngine.RuntimeInitializeOnLoadMethodAttribute(UnityEngine.RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void Initialize() {
             
-            CoreComponentsInitializer.RegisterInitCallback(DataConfigComponentsInitializer.InitTypeId, DataConfigComponentsInitializer.Init, DataConfigComponentsInitializer.Init);
+            if (DataConfigComponentsInitializer.initialized == false) {
+                
+                CoreComponentsInitializer.RegisterInitCallback(DataConfigComponentsInitializer.InitTypeId, DataConfigComponentsInitializer.Init, DataConfigComponentsInitializer.Init);
+
+                DataConfigComponentsInitializer.initialized = true;
+            }
             
         }
-        
+
+        public class DisposeStatic {
+            ~DisposeStatic() {
+                CoreComponentsInitializer.UnRegisterInitCallback(DataConfigComponentsInitializer.InitTypeId, DataConfigComponentsInitializer.Init, DataConfigComponentsInitializer.Init);
+                
+                DataConfigComponentsInitializer.initialized = false;
+            }
+        }
+
         public static DataConfigIndexerFeature GetFeature() {
 
             try {
@@ -32,9 +59,9 @@ namespace ME.ECS.DataConfigs {
             
             ME.ECS.DataConfigs.DataConfig.InitTypeId();
             
-            WorldUtilities.InitComponentTypeId<SourceConfig>();
+            WorldUtilities.InitComponentTypeId<SourceConfig>(isBlittable: true);
             #if !STATIC_API_DISABLED
-            WorldUtilities.InitComponentTypeId<SourceConfigs>();
+            WorldUtilities.InitComponentTypeId<SourceConfigs>(isBlittable: true, isDisposable: true);
             #endif
             
         }
