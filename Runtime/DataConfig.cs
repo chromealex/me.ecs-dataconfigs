@@ -140,7 +140,7 @@ namespace ME.ECS.DataConfigs {
                 // so need to add config's list
                 ref var configs = ref entity.Get<SourceConfigs>();
                 ref var allocator = ref Worlds.current.GetState().allocator;
-                if (configs.configs.isCreated == false) configs.configs = new ME.ECS.Collections.MemoryAllocator.List<ConfigId<DataConfig>>(ref allocator, 1);
+                if (configs.configs.isCreated == false) configs.configs = new ME.ECS.Collections.LowLevel.List<ConfigId<DataConfig>>(ref allocator, 1);
                 configs.configs.Add(ref allocator, config);
 
             } else
@@ -200,7 +200,7 @@ namespace ME.ECS.DataConfigs {
 
                         ref var sharedData = ref entity.Get<SharedData>();
                         ref var allocator = ref world.GetState().allocator;
-                        if (sharedData.archetypeToId.isCreated == false) sharedData.archetypeToId = new ME.ECS.Collections.MemoryAllocator.Dictionary<int, uint>(ref allocator, 10);
+                        if (sharedData.archetypeToId.isCreated == false) sharedData.archetypeToId = new ME.ECS.Collections.LowLevel.Dictionary<int, uint>(ref allocator, 10);
 
                         world.SetSharedData(in entity, in this.structComponents[i], dataIndex, this.sharedGroupId);
                         sharedData.archetypeToId.Add(ref allocator, dataIndex, this.sharedGroupId);
