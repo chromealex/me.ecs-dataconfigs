@@ -24,6 +24,10 @@ namespace ME.ECS.DataConfigs {
         public void ReplaceWith(ref ME.ECS.Collections.LowLevel.Unsafe.MemoryAllocator allocator, in SourceConfigs other) {
             this.configs.ReplaceWith(ref allocator, other.configs);
         }
+        
+        public void CopyFrom(ref ME.ECS.Collections.LowLevel.Unsafe.MemoryAllocator allocator, in SourceConfigs other) {
+            this.configs.CopyFrom(ref allocator, other.configs);
+        }
 
     }
     #endif
