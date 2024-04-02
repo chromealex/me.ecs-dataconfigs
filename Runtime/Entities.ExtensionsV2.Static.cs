@@ -35,6 +35,7 @@ namespace ME.ECS {
         public static bool TryReadStatic<TComponent>(this in Entity entity, out TComponent component) where TComponent : struct, IComponentStatic {
 
             component = default;
+            TComponent foundComponent = default;
             
             // check if this component in SourceConfigs
             if (entity.TryRead<ME.ECS.DataConfigs.SourceConfigs>(out var sourceConfigs) == true) {
@@ -45,8 +46,9 @@ namespace ME.ECS {
 
                     var config = e.Current;
                     // Trying to found last one added config
-                    if (config.GetData().TryRead(out component) == true) {
+                    if (config.GetData().TryRead(out foundComponent) == true) {
                         found = true;
+                        component = foundComponent;
                     }
                     
                 }
