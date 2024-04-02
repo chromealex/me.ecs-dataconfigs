@@ -36,25 +36,31 @@ namespace ME.ECS {
 
             component = default;
             
+            // check if this component in SourceConfigs
+            if (entity.TryRead<ME.ECS.DataConfigs.SourceConfigs>(out var sourceConfigs) == true) {
+
+                bool found = false;
+                var e = sourceConfigs.configs.GetEnumerator(Worlds.current.GetState());
+                while (e.MoveNext() == true) {
+
+                    var config = e.Current;
+                    // Trying to found last one added config
+                    if (config.GetData().TryRead(out component) == true) {
+                        found = true;
+                    }
+                    
+                }
+                e.Dispose();
+
+                if (found == true) return true;
+
+            }
+            
             // check if this component in SourceConfig
             if (entity.TryRead<ME.ECS.DataConfigs.SourceConfig>(out var sourceConfig) == true) {
 
                 if (sourceConfig.config.GetData().TryRead(out component) == true) return true;
 
-            }
-            
-            // check if this component in SourceConfigs
-            if (entity.TryRead<ME.ECS.DataConfigs.SourceConfigs>(out var sourceConfigs) == true) {
-
-                var e = sourceConfigs.configs.GetEnumerator(Worlds.current.GetState());
-                while (e.MoveNext() == true) {
-
-                    var config = e.Current;
-                    if (config.GetData().TryRead(out component) == true) return true;
-                    
-                }
-                e.Dispose();
-                
             }
 
             return false;
@@ -82,15 +88,21 @@ namespace ME.ECS {
             // check if this component in SourceConfigs
             if (entity.TryRead<ME.ECS.DataConfigs.SourceConfigs>(out var sourceConfigs) == true) {
 
+                bool found = false;
                 var e = sourceConfigs.configs.GetEnumerator(Worlds.current.GetState());
                 while (e.MoveNext() == true) {
 
                     var config = e.Current;
-                    if (config.GetData().Has<TComponent>() == true) return true;
+                    if (config.GetData().Has<TComponent>() == true) {
+                        found = true;
+                        break;
+                    }
                     
                 }
                 e.Dispose();
-                
+
+                if (found == true) return true;
+
             }
 
             return false;
@@ -131,6 +143,33 @@ namespace ME.ECS {
 
             if (entity.HasStatic<TComponent>() == true) return;
             
+            // check if this component in SourceConfigs
+            if (source.TryRead<ME.ECS.DataConfigs.SourceConfigs>(out var sourceConfigs) == true) {
+
+                bool found = false;
+                ME.ECS.DataConfigs.DataConfig foundConfig = null;
+                var e = sourceConfigs.configs.GetEnumerator(Worlds.current.GetState());
+                while (e.MoveNext() == true) {
+
+                    var config = e.Current;
+                    // Write static to the last one found config
+                    if (config.GetData().Has<TComponent>() == true) {
+
+                        found = true;
+                        foundConfig = config;
+                    
+                    }
+
+                }
+                e.Dispose();
+
+                if (found == true) {
+                    ME.ECS.DataConfigs.DataConfig.AddSource(in entity, foundConfig);
+                    return;
+                }
+                
+            }
+            
             // check if this component in SourceConfig
             if (source.TryRead<ME.ECS.DataConfigs.SourceConfig>(out var sourceConfig) == true) {
 
@@ -141,25 +180,6 @@ namespace ME.ECS {
                     
                 }
 
-            }
-            
-            // check if this component in SourceConfigs
-            if (source.TryRead<ME.ECS.DataConfigs.SourceConfigs>(out var sourceConfigs) == true) {
-
-                var e = sourceConfigs.configs.GetEnumerator(Worlds.current.GetState());
-                while (e.MoveNext() == true) {
-
-                    var config = e.Current;
-                    if (config.GetData().Has<TComponent>() == true) {
-
-                        ME.ECS.DataConfigs.DataConfig.AddSource(in entity, config);
-                        return;
-                    
-                    }
-
-                }
-                e.Dispose();
-                
             }
             
         }
